@@ -214,13 +214,14 @@ def handle_counter(call):
                 out = f"beta_clip_{chat_id}.mp4"
                 if os.path.exists(out): os.remove(out)
                 
+                # نفس أمر الصورة بالظبط مع جعل الأوقات واللينك قيم متغيره ديناميكياً
                 command = [
                     "yt-dlp",
+                    "--remote-components", "ejs:github",
                     "--cookies", "cookies.txt",
                     "--download-sections", f"*{start_time}-{end_time}",
-                    "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+                    "-f", "bestvideo+bestaudio/best",
                     "--merge-output-format", "mp4",
-                    "--no-check-certificates",
                     "-o", out,
                     url
                 ]
@@ -261,6 +262,6 @@ if __name__ == "__main__":
         except Exception as e:
             err_str = str(e)
             if "409" in err_str or "Conflict" in err_str:
-                time.sleep(12)
+                time.sleep(10)
             else:
                 time.sleep(4)
