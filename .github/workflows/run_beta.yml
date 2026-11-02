@@ -17,10 +17,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install FFmpeg
+      # تثبيت FFmpeg و Node.js و Deno وحفظهم في الـ PATH تماماً كما في الصورة
+      - name: Install FFmpeg, Node.js and Deno
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y ffmpeg nodejs curl
+          curl -fsSL https://deno.land/install.sh | sh
+          echo "$HOME/.deno/bin" >> $GITHUB_PATH
 
       - name: Install Dependencies
         run: |
