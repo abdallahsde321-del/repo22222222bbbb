@@ -52,7 +52,6 @@ def get_time_keyboard(prefix, h, m, s):
     return markup
 
 def get_confirm_keyboard(filename):
-    """زر تأكيد حذف الفيديو من السيرفر"""
     markup = InlineKeyboardMarkup()
     markup.row(
         InlineKeyboardButton("نعم ✅", callback_data=f"confirm_delete_{filename}"),
@@ -208,10 +207,9 @@ def handle_counter(call):
                 command = [
                     "yt-dlp",
                     "--remote-components", "ejs:github",
-                    "--extractor-args", "youtube:player_client=android,tv",
                     "--cookies", "cookies.txt",
                     "--download-sections", f"*{start_time}-{end_time}",
-                    "-f", "bestvideo+bestaudio/best",
+                    "-f", "b/bestvideo+bestaudio",
                     "--merge-output-format", "mp4",
                     "-o", out,
                     url
@@ -223,7 +221,6 @@ def handle_counter(call):
                     with open(out, "rb") as f:
                         bot.send_video(chat_id, f, caption=caption, reply_markup=get_main_menu_keyboard(lang))
                     
-                    # طلب التأكيد لحذف الفيديو من السيرفر
                     confirm_msg = "هل تم تأكيد واستلام الفيديو بنجاح لحذفه من الجهاز؟" if lang == 'ar' else "Confirm video receipt to delete file from server?"
                     bot.send_message(chat_id, confirm_msg, reply_markup=get_confirm_keyboard(out))
                 else:
